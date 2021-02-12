@@ -32,6 +32,34 @@ public class UserRepository {
         }
     }
 
+    public static void update(User User){
+        Transaction transaction = null;
+        try (Session session = DbUtils.sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(User);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    public static void delete(User User){
+        Transaction transaction = null;
+        try (Session session = DbUtils.sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.delete(User);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
