@@ -1,7 +1,6 @@
 package repository;
 
-import model.Order;
-import model.Product;
+import model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -11,9 +10,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DbUtils {
-    public static String DB_URL = "jdbc:mysql://192.168.64.2:3306/tp4jpa";
-    public static String DB_USER = "greg";
-    public static String DB_PASSWORD = "";
+    public static String DB_URL = "jdbc:mysql://localhost:8889/ECE_S8_advanced_java_graded_lab_2&amp;3_project";
+    public static String DB_USER = "root";
+    public static String DB_PASSWORD = "root";
 
     public static final SessionFactory sessionFactory;
 
@@ -21,28 +20,22 @@ public class DbUtils {
         try {
             Configuration configuration = new Configuration();
             configuration.configure();
-            configuration.addAnnotatedClass(Product.class);
-            configuration.addAnnotatedClass(Order.class);
+            configuration.addAnnotatedClass(User.class);
 
             sessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);
         }
     }
-    public static String PRODUCT_TABLE_QUERY = "create table if not exists Product (" +
-            "id integer, " +
-            "name varchar(100), " +
-            "price double, " +
-            "o_id integer, " +
-            "primary Key (id)," +
-            "foreign key (o_id) references Orders(id) " +
+    public static String USER_TABLE_QUERY = "create table if not exists User (" +
+            "email String, " +
+            "dateSignUp Date, " +
+            "dateLastSignIn Date, " +
+            "dateLastAccess Date, " +
+            "password String, " +
+            "primary Key (email)," +
             ")";
 
-    public static String ORDERS_TABLE_QUERY = "create table if not exists Orders (" +
-            "id integer, " +
-            "date date, " +
-            "primary Key (id)" +
-            ")";
 
     public static Connection getDbConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -50,17 +43,11 @@ public class DbUtils {
 
 
     public static void initDb() {
+
         try {
             Statement statement = getDbConnection()
                     .createStatement();
-            statement.execute(ORDERS_TABLE_QUERY);
-        } catch (SQLException e) {
-            System.err.println("Orders SQL error" + e.getMessage());
-        }
-        try {
-            Statement statement = getDbConnection()
-                    .createStatement();
-            statement.execute(PRODUCT_TABLE_QUERY);
+            statement.execute(USER_TABLE_QUERY);
         } catch (SQLException e) {
             System.err.println("Product SQL error" + e.getMessage());
         }
@@ -71,14 +58,7 @@ public class DbUtils {
         try {
             getDbConnection()
                     .createStatement()
-                    .execute("DROP TABLE if exists Product");
-        } catch (SQLException e) {
-            System.err.println("Cannot drop table " + e.getMessage());
-        }
-        try {
-            getDbConnection()
-                    .createStatement()
-                    .execute("DROP TABLE if exists Orders");
+                    .execute("DROP TABLE if exists Users");
         } catch (SQLException e) {
             System.err.println("Cannot drop table " + e.getMessage());
         }
