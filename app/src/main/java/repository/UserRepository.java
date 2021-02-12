@@ -1,28 +1,28 @@
 package repository;
 
-import model.Order;
+import model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class OrderRepository {
+public class UserRepository {
 
-    public static Order find(int id){
+    public static User find(String id){
         try (Session session = DbUtils.sessionFactory.openSession()) {
-            return session.find(Order.class, id);
+            return session.find(User.class, id);
         } catch (HibernateException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static Integer create(Order order){
+    public static String create(User User){
         Transaction transaction = null;
         try (Session session = DbUtils.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            Integer orderId = (Integer) session.save(order);
+            String userId = (String) session.save(User);
             transaction.commit();
-            return orderId;
+            return userId;
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();

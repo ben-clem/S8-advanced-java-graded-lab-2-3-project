@@ -1,14 +1,15 @@
-package com.example.projet_template;
+package controller;
 
-import model.Product;
-import repository.ProductRepository;
+import model.User;
+import repository.UserRepository;
 
 import java.io.*;
+import java.util.Date;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
-public class HelloServlet extends HttpServlet {
+@WebServlet(name = "LoginSuccess", value = "/success")
+public class LoginSuccess extends HttpServlet {
     private String message;
 
     public void init() {
@@ -18,16 +19,16 @@ public class HelloServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
 
-        Product product = new Product("Lampe", 500.0);
-        Integer product01Id = ProductRepository.create(product);
-        product = ProductRepository.find(product01Id);
+        User user = new User(new Date(), new Date(), new Date(), "email", "pass");
+        String user01Id = UserRepository.create(user);
+        user = UserRepository.find(user01Id);
 
 
         // Hello
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
         out.println("<h1>" + message + "</h1>");
-        out.println("<h1>" + product + "</h1>");
+        out.println("<h1>" + user + "</h1>");
         out.println("</body></html>");
     }
 

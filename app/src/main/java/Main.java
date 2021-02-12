@@ -1,17 +1,13 @@
-import model.Order;
-import model.Product;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import repository.OrderRepository;
-import repository.ProductRepository;
+import model.User;
+import repository.UserRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class Main {
     public static void main(final String[] args) throws Exception {
+/*
 
         Product product = new Product("Lampe", 500.0);
         Integer product01Id = ProductRepository.create(product);
@@ -69,6 +65,7 @@ public class Main {
 
         // retrieve all the products stored in the database
         System.out.println("listProducts()=" + ProductRepository.getAll());
+*/
 
         // done
         System.out.println("done");
