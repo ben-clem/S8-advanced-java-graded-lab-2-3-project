@@ -8,7 +8,15 @@
       </options>
     </properties>
     <root id="archive" name="projet-template-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="projet-template:war exploded" />
+      <element id="directory" name="webapp">
+        <element id="artifact" artifact-name="projet-template:war exploded" />
+        <element id="directory" name="WEB-INF">
+          <element id="directory" name="classes">
+            <element id="jpa-descriptors" facet="projet-template/jpa/JPA" />
+          </element>
+        </element>
+      </element>
+      <element id="module-source" name="projet-template" />
     </root>
   </artifact>
 </component>
