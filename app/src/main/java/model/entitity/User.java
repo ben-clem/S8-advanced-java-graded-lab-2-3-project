@@ -1,8 +1,7 @@
-package model;
+package model.entitity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +17,14 @@ public class User {
     private Date dateLastSignIn;
     private Date dateLastAccess;
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(name = "userEmail")
+    private List<Property> properties = new ArrayList<>();
+
     public User(Date dateSignUp, Date dateLastSignIn, Date dateLastAccess, String email, String password) {
         this.dateSignUp = dateSignUp;
         this.dateLastSignIn = dateLastSignIn;
@@ -29,6 +36,13 @@ public class User {
     public User() {
     }
 
+    public List<Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
 
     public Date getDateSignUp() {
         return dateSignUp;

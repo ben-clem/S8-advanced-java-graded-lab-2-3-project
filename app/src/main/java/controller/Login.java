@@ -1,7 +1,8 @@
 package controller;
 
-import model.User;
-import repository.UserRepository;
+import model.entitity.Property;
+import model.entitity.User;
+import model.dataAccess.UserRepository;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 @WebServlet(name = "Login", value = "/login")
 public class Login extends HttpServlet {
@@ -36,16 +37,18 @@ public class Login extends HttpServlet {
             }
 
             RequestDispatcher view = request.getRequestDispatcher("/login-success.jsp");
-            request.setAttribute("user", user);
+            request.setAttribute("user", (Object)user);
             view.forward(request, response);
         } else { // login
             try {
                 User user = UserRepository.find(email);
+                List<Property> properties = user.getProperties();
                 if (user.getPassword().equals(password)) {
                     user.setDateLastSignIn(new Date());
                     UserRepository.update(user);
                     RequestDispatcher view = request.getRequestDispatcher("/login-success.jsp");
                     request.setAttribute("user", user);
+                    request.setAttribute("properties", properties);
                     view.forward(request, response);
                 } else {
                     // todo redirect index w/error

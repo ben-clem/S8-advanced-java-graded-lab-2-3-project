@@ -1,9 +1,10 @@
-package repository;
+package model.dataAccess;
 
-import model.User;
+import model.entitity.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import utils.DbUtils;
 
 public class UserRepository {
 

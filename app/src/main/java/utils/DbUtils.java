@@ -1,6 +1,7 @@
-package repository;
+package utils;
 
-import model.User;
+import model.entitity.Property;
+import model.entitity.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -21,6 +22,7 @@ public class DbUtils {
             Configuration configuration = new Configuration();
             configuration.configure();
             configuration.addAnnotatedClass(User.class);
+            configuration.addAnnotatedClass(Property.class);
 
             sessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {
@@ -34,6 +36,12 @@ public class DbUtils {
             "dateLastAccess Date, " +
             "password String, " +
             "primary Key (email)," +
+            ")";
+
+    public static String PROPERTY_TABLE_QUERY = "create table if not exists Properties (" +
+            "userEmail String, " +
+            "key String, " +
+            "value String, " +
             ")";
 
 
@@ -52,6 +60,14 @@ public class DbUtils {
             System.err.println("Product SQL error" + e.getMessage());
         }
 
+        try {
+            Statement statement = getDbConnection()
+                    .createStatement();
+            statement.execute(PROPERTY_TABLE_QUERY);
+        } catch (SQLException e) {
+            System.err.println("Property SQL error" + e.getMessage());
+        }
+
     }
 
     public static void resetDb() {
@@ -65,7 +81,7 @@ public class DbUtils {
     }
 
     public static void main(final String[] args) throws Exception {
-        resetDb();
-        DbUtils.initDb();
+        // resetDb();
+        initDb();
     }
 }
